@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "cd project-chama-app && npm run dev",
+    "build": "cd project-chama-app && npm run build",
+    "test": "cd project-chama-app && npm run test",
+    "preview": "cd project-chama-app && npm run preview"
+  },
+  "dependencies": {
+    "firebase": "^12.13.0"
+  }
+}
