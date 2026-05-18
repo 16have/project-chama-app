@@ -4,20 +4,8 @@ on:
   push:
     branches: ["main"]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -44,14 +32,12 @@ jobs:
           VITE_FIREBASE_APP_ID:             ${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_ADMIN_PASSWORD:              ${{ secrets.VITE_ADMIN_PASSWORD }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './project-chama-app/dist'
+      - name: Create .nojekyll file
+        run: touch project-chama-app/dist/.nojekyll
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./project-chama-app/dist
+          cname: false
